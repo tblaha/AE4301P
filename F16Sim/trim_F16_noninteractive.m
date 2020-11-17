@@ -1,4 +1,4 @@
-function [trim_state, trim_thrust, trim_control, dLEF, xu] = trim_F16_noninteractive(thrust, elevator, alpha, ail, rud, vel, alt)
+function [trim_state, trim_thrust, trim_control, dLEF, xu, cost] = trim_F16_noninteractive(thrust, elevator, alpha, ail, rud, vel, alt)
 %================================================
 %     F16 nonlinear model trimming routine
 %  for longitudinal motion, steady level flight
@@ -78,15 +78,15 @@ while iter_count <= iter_max
     UX0 = UX;
 end
 
-disp('Trim Values and Cost:');
-disp(['cost   = ' num2str(cost)])
-disp(['thrust = ' num2str(xu(13)) ' lb'])
-disp(['elev   = ' num2str(xu(14)) ' deg'])
-disp(['ail    = ' num2str(xu(15)) ' deg'])
-disp(['rud    = ' num2str(xu(16)) ' deg'])
-disp(['alpha  = ' num2str(xu(8)*180/pi) ' deg'])
-disp(['dLEF   = ' num2str(xu(17)) ' deg'])
-disp(['Vel.   = ' num2str(velocity) 'ft/s'])  
+% disp('Trim Values and Cost:');
+% disp(['cost   = ' num2str(cost)])
+% disp(['thrust = ' num2str(xu(13)) ' lb'])
+% disp(['elev   = ' num2str(xu(14)) ' deg'])
+% disp(['ail    = ' num2str(xu(15)) ' deg'])
+% disp(['rud    = ' num2str(xu(16)) ' deg'])
+% disp(['alpha  = ' num2str(xu(8)*180/pi) ' deg'])
+% disp(['dLEF   = ' num2str(xu(17)) ' deg'])
+% disp(['Vel.   = ' num2str(velocity) 'ft/s'])  
 
 % For simulink:
 trim_state=xu(1:12);

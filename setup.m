@@ -1,6 +1,7 @@
 %% make path
 
 addpath("F16Sim")
+addpath("fc_files")
 
 
 %% Check for mex and if not existent, mex it outselves
