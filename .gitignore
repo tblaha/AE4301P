@@ -7,6 +7,9 @@
 # Compiled MEX binaries (all platforms)
 *.mex*
 
+# matrix files
+*.mat
+
 # Packaged app and toolbox files
 *.mlappinstall
 *.mltbx

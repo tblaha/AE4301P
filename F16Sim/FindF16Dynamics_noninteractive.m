@@ -32,9 +32,9 @@ aileron = 0.01;            % aileron, degrees
 
 %% Find trim for Hifi model at desired altitude and velocity
 %%
-disp('Trimming Model:');
+% disp('Trimming Model:');
 fi_flag_Simulink = fc_setting.Fiflag;
-[trim_state, trim_thrust, trim_control, dLEF, xu] = trim_F16_noninteractive(thrust, elevator, alpha, aileron, rudder, velocity, altitude);
+[trim_state, trim_thrust, trim_control, dLEF, xu, cost] = trim_F16_noninteractive(thrust, elevator, alpha, aileron, rudder, velocity, altitude);
 
 %% Find the state space model for the hifi model at the desired alt and vel.
 %%
