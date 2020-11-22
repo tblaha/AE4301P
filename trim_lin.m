@@ -1,3 +1,10 @@
+warning('off','all')
+close("all")
+clear
+
+%% setup
+
+% check if run from correct path
 [~, lastdir, ~] = fileparts(pwd);
 if ~strcmp(lastdir, "AE4301P")
     error(strcat("Please run ",...
@@ -6,12 +13,16 @@ if ~strcmp(lastdir, "AE4301P")
                  ))
 end
 
+% make directory for output files, if it doesn't already exist
+mkdir fc_files
+
 
 %% generate and load the flight conditions
 
-disp("trim-lin: Generating Flight Conditions...")
+disp("trim-lin: Generating Flight Conditions with gen_fc.m ...")
 run gen_fc.m; clear;
 
+disp("trim-lin: Load fc.mat file...")
 load('fc');
 
 
@@ -110,3 +121,8 @@ catch ME
 end
 
 cd("../")
+
+
+%% 
+
+fprintf("trim_lin: done\n")
