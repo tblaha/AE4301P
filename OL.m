@@ -46,6 +46,7 @@ fig_pos = [100 100 100+fig_size(1) 100+fig_size(2)];
 fprintf("OL: Calculate table of numerical characteristics...")
 
 char_tab = mchar(SS_long, SS_lat);
+writetable(char_tab, 'OL_plot_files/OL_char.csv', 'WriteRowNames', true)
 
 
 %%%%% build output table
