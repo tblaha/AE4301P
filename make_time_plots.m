@@ -35,7 +35,7 @@ stepplot(SS_el_pitchrate, 12, p);
 zoom_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save plot
-filename = strcat("OL_plot_files/", 'TR_Pitchrate_Phugoid_and_sp_long');
+filename = strcat("OL_results/", 'TR_Pitchrate_Phugoid_and_sp_long');
 print(plot_long_pitchrate, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(plot_long_pitchrate, filename, 'epsc2');
 
@@ -48,7 +48,7 @@ print(plot_long_pitchrate, '-depsc2', '-painters', filename)  % looks better for
 %                          
 % SS_el_pitchrate = SS_long(4,2);
 % step(SS_el_pitchrate, 10);
-% filename = strcat("OL_plot_files/", 'TR_Pitchrate_sp_long');
+% filename = strcat("OL_results/", 'TR_Pitchrate_sp_long');
 % saveas(plot_long_pitchrate, filename, 'epsc');
 
 %% Lateral
@@ -72,7 +72,7 @@ base_ax = gca;
 base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
-filename = strcat("OL_plot_files/", 'TR_Yawrate_dr_lat');
+filename = strcat("OL_results/", 'TR_Yawrate_dr_lat');
 print(plot_lat_yawrate, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(plot_lat_yawrate, filename, 'epsc');
 
@@ -97,7 +97,7 @@ base_ax = gca;
 base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
-filename = strcat("OL_plot_files/", 'TR_rollrate_spiral_lat');
+filename = strcat("OL_results/", 'TR_rollrate_spiral_lat');
 print(plot_lat_rollangle, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(plot_lat_rollangle, filename, 'epsc');
 
@@ -122,7 +122,7 @@ base_ax = gca;
 base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
-filename = strcat("OL_plot_files/", 'TR_rollrate_aper_lat');
+filename = strcat("OL_results/", 'TR_rollrate_aper_lat');
 print(plot_lat_rollrate, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(plot_lat_rollrate, filename, 'epsc');
 

@@ -31,7 +31,7 @@ else
 end
 
 % make folder for the plots; if it doesn't exist yet
-mkdir OL_plot_files
+mkdir OL_results
 
 % set visibility of on-screen plots (they are saved as eps anyway)
 show_plots = 'on';
@@ -46,7 +46,8 @@ fig_pos = [100 100 100+fig_size(1) 100+fig_size(2)];
 fprintf("OL: Calculate table of numerical characteristics...")
 
 char_tab = mchar(SS_long, SS_lat);
-writetable(char_tab, 'OL_plot_files/OL_char.csv', 'WriteRowNames', true)
+writetable(char_tab, 'OL_results/OL_char.csv', 'WriteRowNames', true)
+char_tab
 
 
 %%%%% build output table

@@ -1,6 +1,7 @@
 %% make path
 
 addpath("F16Sim")
+addpath("F16Sim_rev")
 addpath("fc_files")
 addpath("export_fig")
 

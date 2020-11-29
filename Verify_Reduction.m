@@ -23,7 +23,7 @@ if ~strcmp(lastdir, "AE4301P")
 end
 
 % make directory for output files, if it doesn't already exist
-mkdir LinVerificationPlots
+mkdir Lin_results
 
 s = tf('s');
 

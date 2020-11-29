@@ -75,7 +75,7 @@ annotation(map_long,'line',[0.896666666666667 0.781111111111111],...
 
 
 % save plot
-filename = 'OL_plot_files/PZ_map_long';
+filename = 'OL_results/PZ_map_long';
 print(map_long, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(map_long, filename, 'epsc')
 
@@ -160,7 +160,7 @@ annotation(map_lat,'line',[0.7 0.902222222222222],[0.67525 0.525],...
 annotation(map_lat,'line',[0.7 0.9],[0.3025 0.48375],'LineStyle','--');
 
 % save plot
-filename = 'OL_plot_files/PZ_map_lat';
+filename = 'OL_results/PZ_map_lat';
 print(map_lat, '-depsc2', '-painters', filename)  % looks better for some reason...
 % saveas(map_lat, filename, 'epsc')
 
