@@ -1,4 +1,5 @@
 
+fprintf("gen_fc: Generating 8 flight conditions to be written to fc.mat...")
 
 % columns: altitude [ft] | speed [ft/s] | HiFi 1/LoFi 0 | reduction level
 fc = struct();
@@ -63,3 +64,7 @@ fc.name{8}   = "GS_LoFi_5DoF";
 %% save as mat file
 
 save('fc.mat', 'fc')
+
+%%
+
+fprintf("done\n")
