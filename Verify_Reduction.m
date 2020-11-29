@@ -22,6 +22,24 @@ if ~strcmp(lastdir, "AE4301P")
                  ))
 end
 
+% load Steady State system; if it doesn't exist, run trim_lin.m
+fprintf("Verify_Reduction: Checking if SS matrices exist...")
+if exist("fc_files/SS_Std_LoFi_4DoF.mat", 'file') > 0
+    fprintf("OK\n")
+    
+    load('fc_files/SS_Std_LoFi_4DoF.mat');
+else
+    fprintf("failed: try to run trim-lin to generate them...\n")
+    
+    run trim_lin.m
+    
+    fprintf("Verify_Reduction: Importing SS matrix...")
+    
+    load('fc_files/SS_Std_LoFi_4DoF.mat');
+    fprintf("OK, recovered\n")
+end
+
+
 % make directory for output files, if it doesn't already exist
 mkdir Lin_results
 
@@ -132,7 +150,7 @@ zoom_ax.SortMethod='ChildOrder';
 filename = strcat("OL_plot_files/", "ReductionComparison");
 % print(h, '-depsc2', '-painters', filename)
 set(gcf, 'Color', 'w');
-export_fig LinVerificationPlots/ReductionComparison.eps -painters
+export_fig Lin_results/ReductionComparison.eps -painters
 
 
 
@@ -176,7 +194,7 @@ legend({'8DoF -- Full Model',...
         "fontsize", 10, "Location", "NorthEast")
 
 set(gcf, 'Color', 'w');
-export_fig LinVerificationPlots/ReductionComparisonTheta.eps -depsc -painters
+export_fig Lin_results/ReductionComparisonTheta.eps -depsc -painters
 
 
 %% helper functions

@@ -15,6 +15,7 @@ end
 
 % make directory for output files, if it doesn't already exist
 mkdir fc_files
+addpath("fc_files")
 
 
 %% generate and load the flight conditions
