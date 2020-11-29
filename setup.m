@@ -1,6 +1,8 @@
 %% make path
 
 addpath("F16Sim")
+addpath("fc_files")
+addpath("export_fig")
 
 
 %% Check for mex and if not existent, mex it outselves
