@@ -6,13 +6,36 @@
 % actuator model convoluted with a 5 DoF model (7 states - 2 actuator
 % states)
 
+warning('off','all')
 close("all")
 clear
+
+
+%% setup
+
+% check if run from correct path
+[~, lastdir, ~] = fileparts(pwd);
+if ~strcmp(lastdir, "AE4301P")
+    error(strcat("Please run ",...
+                 mfilename,...
+                 " from the root directory of this project"...
+                 ))
+end
+
+% make directory for output files, if it doesn't already exist
+mkdir LinVerificationPlots
+
+s = tf('s');
+
+
+
+%% load models
 
 red5 = load("./fc_files/SS_Std_LoFi_5DoF");
 nonred = load("./fc_files/SS_Std_LoFi_full");
 
-s = tf('s');
+
+
 
 %% elevator to theta of the full model
 
@@ -109,7 +132,7 @@ zoom_ax.SortMethod='ChildOrder';
 filename = strcat("OL_plot_files/", "ReductionComparison");
 % print(h, '-depsc2', '-painters', filename)
 set(gcf, 'Color', 'w');
-export_fig OL_plot_files/ReductionComparison.eps -painters
+export_fig LinVerificationPlots/ReductionComparison.eps -painters
 
 
 
@@ -153,7 +176,7 @@ legend({'8DoF -- Full Model',...
         "fontsize", 10, "Location", "NorthEast")
 
 set(gcf, 'Color', 'w');
-export_fig OL_plot_files/ReductionComparisonTheta.eps -depsc -painters
+export_fig LinVerificationPlots/ReductionComparisonTheta.eps -depsc -painters
 
 
 %% helper functions
