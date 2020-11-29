@@ -7,7 +7,7 @@
 % states)
 
 warning('off','all')
-close("all")
+%close("all")
 clear
 
 

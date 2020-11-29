@@ -2,6 +2,7 @@
 
 addpath("F16Sim")
 addpath("F16Sim_rev")
+addpath("SubLibrary")
 addpath("fc_files")
 addpath("export_fig")
 
