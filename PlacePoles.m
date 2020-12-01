@@ -16,6 +16,7 @@ C_tilde = C * T;
 
 w_n = 0.03*xu(7)*0.3048;
 z   = 0.5;
+T_theta_2_target = 1/(0.75*w_n);
 
 a = -w_n;
 b = w_n*sqrt(1-z^2);
@@ -34,13 +35,21 @@ Kq = F(2);
 %%
 
 A_c = (A+B*F);
-B_c = ones(2, 1);
+B_c = [0;1];
 C_c = C;
 D_c = D;
 
+
 sys_c = ss(A_c, B_c, C_c, D_c);
 
+s = tf('s');
+H_c = tf(sys_c);
+H_servo = 22.2/(s+22.2);
+H_c_q= H_c(2,1)*H_servo;
+H_c_theta = minreal(H_c_q*(1/s));
 
+bode(H_c_theta)
+[slope,frequency_cross] = phase_rate_check(H_c_theta)
 
 
 
