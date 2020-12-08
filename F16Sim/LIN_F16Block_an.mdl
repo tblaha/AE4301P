@@ -40,7 +40,7 @@ Model {
       UnitExpr		      "inherit"
     }
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.139"
+    ComputedModelVersion    "1.140"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -80,7 +80,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [44.0, 1080.0, 1876.0, 1028.0]
+      Location		      [52.0, 8.0, 1876.0, 1028.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -89,7 +89,7 @@ Model {
 	DockPosition		"Left"
 	Width			[50]
 	Height			[50]
-	Filter			[8]
+	Filter			[9]
 	Minimized		"On"
       }
       Object {
@@ -105,9 +105,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1810.0, 849.0]
+	Extents			[1780.0, 849.0]
 	ZoomFactor		[2.0]
-	Offset			[25.8410236762171, -54.090599569089861]
+	Offset			[25.841023676217105, -54.090599569089875]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -128,9 +128,9 @@ Model {
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAABiAP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAABrAD///8AAAc4AAADiQAAAAEAAAACAAAAAQAAAAL8AAAABAAAAAAAAAABAAAANgBjAG8AbABsAGEAcABzAGkAY"
+      "QBjAHQAbwByAAAAAAD/////AAABrAD///8AAAcaAAADiQAAAAEAAAACAAAAAQAAAAL8AAAABAAAAAAAAAABAAAANgBjAG8AbABsAGEAcABzAGkAY"
       "gBsAGUAUABhAG4AZQBsAFQAbwBvAGwAQgBhAHIATABlAGYAdAMAAAAA/////wAAAAAAAAAAAAAAAQAAAAEAAAA4AGMAbwBsAGwAYQBwAHMAaQBiA"
-      "GwAZQBQAGEAbgBlAGwAVABvAG8AbABCAGEAcgBSAGkAZwBoAHQCAAAAAP////8AAAAAAAAAAAAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "GwAZQBQAGEAbgBlAGwAVABvAG8AbABCAGEAcgBSAGkAZwBoAHQDAAAAAP////8AAAAAAAAAAAAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAACA/////wAAAAAAAAAA/////wEAAADo/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAFo/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAM9/////wAAAAAAAAAA/"
@@ -145,9 +145,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "tblaha"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Dec 08 16:31:19 2020"
-  RTWModifiedTimeStamp	  529345872
-  ModelVersionFormat	  "1.%<AutoIncrement:139>"
+  LastModifiedDate	  "Tue Dec 08 21:07:25 2020"
+  RTWModifiedTimeStamp	  529362403
+  ModelVersionFormat	  "1.%<AutoIncrement:140>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1264,8 +1264,8 @@ Model {
   }
   System {
     Name		    "LIN_F16Block_an"
-    Location		    [44, 1080, 1920, 2108]
-    Open		    off
+    Location		    [52, 8, 1928, 1036]
+    Open		    on
     PortBlocksUseCompactNotation off
     SetExecutionDomain	    off
     ExecutionDomainType	    "Deduce"
@@ -1444,6 +1444,14 @@ Model {
       BackgroundColor	      "black"
       ShowName		      off
       Outputs		      "[12 6]"
+      Port {
+	PortNumber		1
+	Name			"state\nderivatives"
+      }
+      Port {
+	PortNumber		2
+	Name			"n_xyz\nM, airdata"
+      }
     }
     Block {
       BlockType		      SubSystem
@@ -1585,7 +1593,7 @@ Model {
       BlockType		      Gain
       Name		      "Gain"
       SID		      "90"
-      Position		      [575, 250, 620, 280]
+      Position		      [615, 247, 655, 283]
       ZOrder		      4
       Gain		      "xa/gD"
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
@@ -2500,7 +2508,7 @@ Model {
       Name		      "Mux4"
       SID		      "51"
       Ports		      [3, 1]
-      Position		      [675, 90, 680, 210]
+      Position		      [720, 90, 725, 210]
       ZOrder		      -12
       ShowName		      off
       Inputs		      "3"
@@ -2638,7 +2646,7 @@ Model {
       Name		      "Selector"
       SID		      "88"
       Ports		      [1, 1]
-      Position		      [515, 168, 545, 212]
+      Position		      [545, 168, 575, 212]
       ZOrder		      2
       InputPortWidth	      "6"
       IndexOptions	      "Index vector (dialog)"
@@ -2654,7 +2662,7 @@ Model {
       Name		      "Selector1"
       SID		      "89"
       Ports		      [1, 1]
-      Position		      [515, 225, 545, 305]
+      Position		      [545, 225, 575, 305]
       ZOrder		      3
       InputPortWidth	      "12"
       IndexOptions	      "Index vector (dialog)"
@@ -2670,7 +2678,7 @@ Model {
       Name		      "Sum"
       SID		      "87"
       Ports		      [2, 1]
-      Position		      [620, 180, 640, 200]
+      Position		      [655, 180, 675, 200]
       ZOrder		      1
       ShowName		      off
       IconShape		      "round"
@@ -2811,7 +2819,7 @@ Model {
       Name		      "rad2deg"
       SID		      "56"
       Ports		      [1, 1]
-      Position		      [770, 137, 795, 163]
+      Position		      [815, 137, 840, 163]
       ZOrder		      -17
       RequestExecContextInheritance off
       System {
@@ -3223,7 +3231,7 @@ Model {
       BlockType		      Outport
       Name		      "y"
       SID		      "81"
-      Position		      [850, 143, 880, 157]
+      Position		      [865, 143, 895, 157]
       ZOrder		      -18
       IconDisplay	      "Port number"
     }
@@ -3242,12 +3250,14 @@ Model {
       DstPort		      1
     }
     Line {
+      Name		      "state\nderivatives"
       ZOrder		      3
       SrcBlock		      "Demux"
       SrcPort		      1
       Points		      [1, 0]
       Branch {
 	ZOrder			29
+	Labels			[2, 1]
 	Points			[0, 155]
 	DstBlock		"Selector1"
 	DstPort			1
@@ -3259,12 +3269,14 @@ Model {
       }
     }
     Line {
+      Name		      "n_xyz\nM, airdata"
       ZOrder		      4
       SrcBlock		      "Demux"
       SrcPort		      2
       Points		      [15, 0]
       Branch {
 	ZOrder			26
+	Labels			[1, 0]
 	Points			[0, 40]
 	DstBlock		"Selector"
 	DstPort			1
@@ -3463,7 +3475,7 @@ Model {
       " margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" col"
       "or:#c00000;\">na</span></p>\n<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom"
       ":0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"
-      Position		      [715, 156, 737, 358]
+      Position		      [759, 90, 781, 292]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "blue"
       Interpreter	      "rich"
@@ -3473,7 +3485,7 @@ Model {
     Annotation {
       SID		      "83"
       Name		      "University of Minnesota / Honeywell\nDate : June 1st, 2000"
-      Position		      [714, 36, 874, 64]
+      Position		      [733, 33, 893, 61]
       InternalMargins	      [0, 0, 0, 0]
       ForegroundColor	      "blue"
       ZOrder		      -2

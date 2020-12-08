@@ -55,15 +55,15 @@ an = @(x, u) C_an*x + D_an*u;
 % insignificant?
 
 % let's weigh the coefficients by their maximum following an elevator step
-max_step = [4000, 20*pi/180, 300, 5*pi/180, 4*pi/180, 1*pi/180, 1*pi/180];
-rel_dependency = abs(C_an).*max_step;
+max_step = [-100, -10*pi/180, 12, -3.5*pi/180, -4*pi/180, 0, 1];
+rel_dependency = C_an.*max_step;
 
 % norm them such that the maximum is 1
-rel_dependency = rel_dependency/max(rel_dependency);
+rel_dependency = rel_dependency/max(abs(rel_dependency));
 
 % define significance level and find significant dependencies
-sig_level = 1e-3;
-an_dependencies = find(rel_dependency >= sig_level);
+sig_level = 1e-2;
+an_dependencies = find(abs(rel_dependency) >= sig_level);
 
 
 % output:
@@ -110,7 +110,7 @@ zeros_el2an = zpk(el2an).Z{1};
 
 % we need to do two things here: look at the numerical values of the zeros
 % in the transfer function and plot the step responses for a xa sweep
-xa_sweep = [0, 5, 5.9, 6, 7, 15];
+xa_sweep = fliplr([0, 5, 5.9, 6, 7, 15]);
 
 
 % Let's use a table to store the numerical results
