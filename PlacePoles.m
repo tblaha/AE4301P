@@ -1,5 +1,5 @@
-clear
-load("fc_files/SS_Std_LoFi_2DoF.mat")
+% clear
+% load("fc_files/SS_Std_LoFi_2DoF.mat")
 
 %%
 
@@ -35,7 +35,7 @@ Kq = F(2);
 
 A_c = (A+B*F);
 % B_c = B*F*[0; 1]; % q-command mdl
-B_c = -[0; 1]; % convolution mdl
+B_c = B; % convolution mdl
 C_c = eye(2);
 D_c = D;
 
@@ -74,22 +74,22 @@ final_H_c_q = minreal(LL_filt * H_c_q);
 %scaled_H_c_q = final_H_c_q / evalfr(final_H_c_q, 0)
 
 % step plot
-close("all")
-figure("name", "Compare Pre-Filter", "Visible", "off")
-hold on
-step(-H_c_q, 6)
-step(-final_H_c_q, 6)
-hold off
-
-grid on
-legend(["No Prefilter", "Lead Prefilter"])
+% close("all")
+% figure("name", "Compare Pre-Filter", "Visible", "off")
+% hold on
+% step(-H_c_q, 6)
+% step(-final_H_c_q, 6)
+% hold off
+% 
+% grid on
+% legend(["No Prefilter", "Lead Prefilter"])
 
 
 
 %% compare to simulink model
-modelname = "q_loop_Convolution";
+% modelname = "q_loop_Convolution";
 % modelname = "q_loop_qcmd";
 
-sys = linmod(modelname); ss_sys_q = ss(sys.a, sys.b, sys.c, sys.d); minreal(zpk(tf(ss_sys_q)))*180/pi
-final_H_c_q
+% sys = linmod(modelname); ss_sys_q = ss(sys.a, sys.b, sys.c, sys.d); minreal(zpk(tf(ss_sys_q)))*180/pi
+% final_H_c_q
 
