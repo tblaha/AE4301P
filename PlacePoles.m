@@ -1,95 +1,121 @@
-% clear
-% load("fc_files/SS_Std_LoFi_2DoF.mat")
+% Take 2DoF SS_long, as produced by trim_lin.m, and place poles to what
+% task 6.3.3. suggests.
 
-%%
+%% Desired pole and zero locations
+
+w_n = 0.03*xu(7)*0.3048; % natural freq
+z   = 0.5; % damping ratio
+recip_Ttheta2_target = 0.75*w_n; % reciprocal of the desired zero
+
+% express pole as complex pole:
+a = -z*w_n;           % Re part 
+b = w_n*sqrt(1-z^2);  % Im part (only the square of this will be 
+                      % required later, so sign doesn't matter)
+
+target = a + b*1i;    % complex pole
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Computation of gains %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Get system in convenient form (use only the elevator input)
 
 A = SS_long.A;
 B = SS_long.B(:, 2); % only elevator feedback
 C = SS_long.C;
 D = SS_long.D(:, 2); % only elevator feedback
 
-T = [B, A*B];
+% Transform the system to Kalman Decomposition (B = [1 0]')
+T = [B, A*B]; % controllability matrix used as transformation matrix
 
 A_tilde = T \ A * T;
 B_tilde = T \ B;
 C_tilde = C * T;
 
-w_n = 0.03*xu(7)*0.3048;
-z   = 0.5;
+ 
+%% Pole placement in Kalman Decomposition Form
+% see report for derivation of those equations
 
-a = -z*w_n;
-b = w_n*sqrt(1-z^2);
-target = a + b*1i;
-
+% note: a and q are not actually related to  the states alpha and q, so the 
+%       subscripts here are a bit misleading 
 Ka_tilde = 2*a - A_tilde(2, 2);
-Kq_tilde = -A_tilde(1, 2) + Ka_tilde * (A_tilde(2, 2) - a) + (a^2 - b^2 - A_tilde(2, 2)*a);
+Kq_tilde = -A_tilde(1, 2) + Ka_tilde * (A_tilde(2, 2) - a)...
+           + (a^2 - b^2 - A_tilde(2, 2)*a);
 
+% State feedback matrix in Kalman Decomposition Form
 F_tilde = [Ka_tilde, Kq_tilde];
-F = F_tilde * inv(T);
 
-Ka = F(1);
+
+%% Transform back to [alpha, q] system
+
+F = (T \ F_tilde')';
+
+% get the _actual_ gains relating to states [alpha, q]
+Ka = F(1); 
 Kq = F(2);
 
 
-%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Set up new system %%
+%%%%%%%%%%%%%%%%%%%%%%%
 
-A_c = (A+B*F);
-% B_c = B*F*[0; 1]; % q-command mdl
-B_c = B; % convolution mdl
-C_c = eye(2);
-D_c = D;
+% subscript pp --> pole-placed
+A_pp = (A+B*F); % note, that the negatives (if required) are in F
+B_pp = B; % same input (direct to elevator)
+C_pp = eye(2); % let's stick with radians!
+D_pp = D; % zero anyway
+
+% set up the matlab state space object
+sys_pp = ss(A_pp, B_pp, C_pp, D_pp);
 
 
-sys_c = ss(A_c, B_c, C_c, D_c);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Prefiltering to place zero %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% get transfer function from elevator to q/theta
 s = tf('s');
-H_c = tf(sys_c);
-H_servo = 22.2/(s+22.2);
-H_c_q = minreal(H_c(2,1));
-H_c_theta = minreal(H_c_q*1/s);
+H_pp = tf(sys_pp);
 
-% bode(H_c_theta)
-[slope,frequency_cross] = phase_rate_check(H_c_theta);
+% for q: just pick 2nd output
+H_pp_q = minreal(H_pp(2));
+
+% for theta: integrate q once
+H_pp_theta = minreal(H_pp_q*1/s);
 
 
-%%
+%% Design Lead or Lag filter with unity gain at 0Hz
 
-recip_Ttheta2_target = 0.75*w_n;
-% recip_Ttheta2_actual = 1 / (H_c_q.num{1}(3) /H_c_q.num{1}(4)):
-H_c_q = zpk(H_c_q);
-recip_Ttheta2_actual = -H_c_q.Z{1}(1);  % seems more robust
+% find actual ("present") value of the zero in the TF
+H_pp_q = zpk(H_pp_q);
+recip_Ttheta2_actual = -H_pp_q.Z{1}(1); % mind definition of Tt2 vs zpk
 
 % design Lead-Lag (actually just lag, if you look at the poles/zeros)
 LL_filt = recip_Ttheta2_actual/recip_Ttheta2_target *...
     ((s + recip_Ttheta2_target) / (s + recip_Ttheta2_actual));
 
-% premultiply with the pole-placed H_c_q
-final_H_c_q = minreal(LL_filt * H_c_q);
-
-% even though the H_c_q is pole-placed, there is still not guarantee that
-% an input is tracked (after, what _is_ the input to a pole placed system?)
-% 
-% for now, just scale it:
-%H_c_q
-%scaled_H_c_q = final_H_c_q / evalfr(final_H_c_q, 0)
-
-% step plot
-% close("all")
-% figure("name", "Compare Pre-Filter", "Visible", "off")
-% hold on
-% step(-H_c_q, 6)
-% step(-final_H_c_q, 6)
-% hold off
-% 
-% grid on
-% legend(["No Prefilter", "Lead Prefilter"])
+% convolve with the pole-placed H_c_q
+H_pp_filt_q = minreal(LL_filt * H_pp_q);
 
 
 
-%% compare to simulink model
-% modelname = "q_loop_Convolution";
-% modelname = "q_loop_qcmd";
 
-% sys = linmod(modelname); ss_sys_q = ss(sys.a, sys.b, sys.c, sys.d); minreal(zpk(tf(ss_sys_q)))*180/pi
-% final_H_c_q
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Verifiation: Compare to Simulink Model %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% linearize; state-spaceify; get transfer function
+sim_sys = linmod("q_loop");
+ss_sim_sys_q = ss(sim_sys.a, sim_sys.b, sim_sys.c, sim_sys.d);
+ss_sim_sys_el2q_tf = minreal(zpk(tf(ss_sim_sys_q(2))));
+
+% compare tf's from the simulink to one calulated above
+disp("PlacePoles.m: Verify same implementation PLacePoles.m and q_loop.mdl...")
+ss_sim_sys_el2q_tf
+H_pp_filt_q
 
