@@ -390,3 +390,7 @@ writetable(q_ctl_table, 'q_ctl_outputs/Handling_char.csv',...
 
 q_ctl_table
 
+% latex table strings:
+% q_ctl_table{5:6, 1} = -1;
+% string(q_ctl_table{:, :}').join("$ & $")
+
