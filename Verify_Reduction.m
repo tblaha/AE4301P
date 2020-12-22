@@ -6,7 +6,7 @@
 % actuator model convoluted with a 5 DoF model (7 states - 2 actuator
 % states)
 
-warning('off','all')
+warning('on','all')
 close("all")
 clear
 
