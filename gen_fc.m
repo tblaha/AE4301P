@@ -61,6 +61,14 @@ fc.con(8, :) = [5000, 300, 0, 5];
 fc.name{8}   = "GS_LoFi_5DoF";
 
 
+%% Glideslope condition reduced 2-DoF (for pole-placement)
+% 5000ft, LoFi, reduced to 2DoF
+% Longitudinal States --> h, u, \alpha, \delta, q
+% Lateral States -->  all
+fc.con(8, :) = [5000, 300, 0, 2];
+fc.name{8}   = "GS_LoFi_2DoF";
+
+
 %% save as mat file
 
 save('fc.mat', 'fc')
