@@ -3,10 +3,6 @@
 
 %% Desired pole and zero locations
 
-w_n = 0.03*xu(7)*0.3048; % natural freq
-z   = 0.5; % damping ratio
-recip_Ttheta2_target = 0.75*w_n; % reciprocal of the desired zero
-
 % express pole as complex pole:
 a = -z*w_n;           % Re part 
 b = w_n*sqrt(1-z^2);  % Im part (only the square of this will be 
