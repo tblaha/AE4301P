@@ -48,6 +48,14 @@ s = tf('s');  % obligatory...
 %% Poles placed -- no servo dynamics
 % the PlacePoles.m script provides a pole placed SS system and a transfer
 % function that also has correct zeros by prefiltering
+
+% desired pole
+w_n = 0.03*xu(7)*0.3048; % natural freq
+% w_n = 0.7 * 0.03*xu(7)*0.3048; % natural freq, but only 70%
+z   = 0.5; % damping ratio
+recip_Ttheta2_target = 0.75*w_n; % reciprocal of the desired zero
+
+% place those o's and x's
 run PlacePoles.m
 
 % alias:
@@ -393,4 +401,11 @@ q_ctl_table
 % latex table strings:
 % q_ctl_table{5:6, 1} = -1;
 % string(q_ctl_table{:, :}').join("$ & $")
+
+
+
+%% To obtain the last line in Table xx; re-run this file but uncomment line 54
+
+
+
 
