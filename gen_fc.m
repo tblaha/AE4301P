@@ -65,8 +65,8 @@ fc.name{8}   = "GS_LoFi_5DoF";
 % 5000ft, LoFi, reduced to 2DoF
 % Longitudinal States --> h, u, \alpha, \delta, q
 % Lateral States -->  all
-fc.con(8, :) = [5000, 300, 0, 2];
-fc.name{8}   = "GS_LoFi_2DoF";
+fc.con(9, :) = [5000, 300, 0, 2];
+fc.name{9}   = "GS_LoFi_2DoF";
 
 
 %% save as mat file

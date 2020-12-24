@@ -14,10 +14,10 @@ end
 
 % load Steady State system; if it doesn't exist, run trim_lin.m
 fprintf("q_ctl: Checking if SS matrices exist...")
-if exist("fc_files/SS_GS_LoFi_2DoF.mat", 'file') > 0
+if exist("fc_files/SS_Std_LoFi_2DoF.mat", 'file') > 0
     fprintf("OK\n")
     
-    load('fc_files/SS_GS_LoFi_2DoF.mat');
+    load('fc_files/SS_Std_LoFi_2DoF.mat');
 else
     fprintf("failed: try to run trim-lin to generate them...\n")
     
@@ -25,7 +25,7 @@ else
     
     fprintf("q_ctl: Importing SS matrix...")
     
-    load('fc_files/SS_GS_LoFi_2DoF.mat');
+    load('fc_files/SS_Std_LoFi_2DoF.mat');
     fprintf("OK, recovered\n")
 end
 
