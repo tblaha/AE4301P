@@ -66,6 +66,25 @@ glideslope = 3; % degree
 time_to_intercept = 10; % sec
 
 
+%% Visualization config for FlightGear
+% Spangdahlem Airbase Germany, 480th Fighter Squadron (F16-CJ)
+% RWY 23 (commonly used for landings)
+
+% Threshold coordinates
+Th23 = [6.71346; 49.98628]; % longE; latN
+Th05 = [6.68358; 49.96680]; % longE; latN
+
+% length and bearing of runway, computed with some online great-circle tool
+L_RWY   = 3042.6 / 0.3048; % ft
+Psi_RWY = 224.7;           % degrees
+
+% unit vector of coordinates along runway
+RWY_vector = (Th05 - Th23) / L_RWY; % unit vector pointing from approach to threshold
+
+% height of the runway from wikipedia plus "empirical" correction
+h_RWY = 364.8 / 0.3048 + 3; % ft over MSL
+
+
 %% Set initial states
 
 % get trim condition in appropriate units for states
@@ -86,14 +105,31 @@ init_x_pos = - ( time_to_intercept*con_trim(2)... % distance covered until inter
 h_flare = 30; % ft over ground; guess for now
 
 
-%% design phugoid 
+%% design control loops
+% 
+% 
+% % linearize system:
+% sys = linmod('Landing');
+% 
+% % state space
+% ss_sys = ss(sys.a, sys.b, sys.c, sys.d);
+% % inputs:  [ u_th, u_ref (speed ref), u_el   , q_ref  , theta_ref ]
+% % outputs: [  y_h,   y_u            , y_alpha, y_theta,       y_q, Gamma ]
+% 
+% 
+% %%% Define loop to investigate with sisotool
+% % loop_in = 1; loop_out = 2;   % Thrust to speed
+% loop_in = 3; loop_out = 5;   % Elevator to q
+% % loop_in = 4; loop_out = 4;   % q_ref to theta
+% % loop_in = 5; loop_out = 6;   % theta_ref to Gamma (GS error)
+% 
+% sub_loop_tf = zpk(minreal(tf(ss_sys(loop_out, loop_in))));
+% 
+% % actually use SISOtool
+% sisotool(sub_loop_tf)
+% 
+% 
 
-% el2alpha
-% G_el2a = minreal(tf(SS_long(2, 2)));
-
-% % for alpha-feedback, choose K_alpha = 0.017391
-% G_alpha_closed = minreal(0.01739*G_el2a / (1 + 0.01739*G_el2a));
 
 
-% for u-feedback, choose K = 0.0079068
 
