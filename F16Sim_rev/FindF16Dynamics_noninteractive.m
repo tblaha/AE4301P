@@ -11,9 +11,22 @@
 %================================================
 %clear;
 
-addpath obsmutoolsfornewermatlabversions -END % required for some new MATLAB versions
+addpath ./F16Sim/obsmutoolsfornewermatlabversions -END % required for some new MATLAB versions
 
 global fi_flag_Simulink
+
+if (exist("SL_lin_block", 'var') == 0) || (exist("an_output", 'var') == 0)
+    sprintf("using Standard LIN_F16Block.mdl for linearization")
+    
+    SL_lin_block = 'LIN_F16Block';
+    an_output = false;
+end
+
+if an_output
+    long_CD_rows = [21 23 25 26 29 37];
+else
+    long_CD_rows = [21 23 25 26 29];
+end
 
 newline = sprintf('\n');
 
@@ -39,7 +52,7 @@ fi_flag_Simulink = fc_setting.Fiflag;
 %% Find the state space model for the hifi model at the desired alt and vel.
 %%
 trim_state_lin = trim_state; trim_thrust_lin = trim_thrust; trim_control_lin = trim_control;
-[A,B,C,D] = linmod('LIN_F16Block', [trim_state_lin; trim_thrust_lin; trim_control_lin(1); trim_control_lin(2); trim_control_lin(3); ...
+[A,B,C,D] = linmod(SL_lin_block, [trim_state_lin; trim_thrust_lin; trim_control_lin(1); trim_control_lin(2); trim_control_lin(3); ...
 		dLEF; -trim_state_lin(8)*180/pi], [trim_thrust_lin; trim_control_lin(1); trim_control_lin(2); trim_control_lin(3)]);
 
 %% Make state space model
@@ -65,11 +78,12 @@ B_longitude = mat([3 5 7 8 11 13 14], [19 20]);
 
 %% Select the components that make up the longitude C matrix
 %%
-C_longitude = mat([21 23 25 26 29], [3 5 7 8 11 13 14]);
+
+C_longitude = mat(long_CD_rows, [3 5 7 8 11 13 14]);
 
 %% Select the components that make up the longitude D matrix
 %%
-D_longitude = mat([21 23 25 26 29], [19 20]);
+D_longitude = mat(long_CD_rows, [19 20]);
 
 SS_long = ss(A_longitude, B_longitude, C_longitude, D_longitude);
 
