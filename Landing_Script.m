@@ -105,7 +105,7 @@ init_x_pos = - ( time_to_intercept*con_trim(2)... % distance covered until inter
 
 h_dot_flare_zero = xu(7)*sind(-3); %[ft/s]
 x1 = 1100; % ft
-tau = x1/(3*xu(7));
+tau = x1/(1.5*xu(7));
 h_flare = -1*tau*h_dot_flare_zero; %[ft]
 
 
@@ -113,26 +113,26 @@ h_flare = -1*tau*h_dot_flare_zero; %[ft]
 % 
 % 
 % % linearize system:
-%sys = linmod('Landing');
+sys = linmod('Landing');
 % 
 % % state space
-%ss_sys = ss(sys.a, sys.b, sys.c, sys.d);
+ss_sys = ss(sys.a, sys.b, sys.c, sys.d);
 % % inputs:  [ u_th, u_ref (speed ref), u_el   , q_ref  , theta_ref ]
-% % outputs: [  y_h,   y_u            , y_alpha, y_theta,       y_q, Gamma ]
-% 
-% 
+% % outputs: [  y_h,   y_u            , y_alpha, y_theta,       y_q, Gamma, hdot ]
+
+
 % %%% Define loop to investigate with sisotool
 %loop_in = 1; loop_out = 2;   % Thrust to speed
 %loop_in = 3; loop_out = 5;   % Elevator to q
 % % loop_in = 4; loop_out = 4;   % q_ref to theta
 %loop_in = 5; loop_out = 6;   % theta_ref to Gamma (GS error)
-% 
-%sub_loop_tf = zpk(minreal(tf(ss_sys(loop_out, loop_in))));
+loop_in = 5; loop_out = 7;   % theta_ref to Gamma (GS error)
+
+sub_loop_tf = zpk(minreal(tf(ss_sys(loop_out, loop_in))));
 % 
 % % actually use SISOtool
-%sisotool(sub_loop_tf)
-% 
-% 
+sisotool(sub_loop_tf)
+
 
 
 
