@@ -48,7 +48,7 @@ F_tilde = [Ka_tilde, Kq_tilde];
 F = F_tilde / T;
 
 % get the _actual_ gains relating to states [alpha, q]
-Ka = F(1); 
+Ka = F(1);
 Kq = F(2);
 
 
