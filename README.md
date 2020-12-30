@@ -8,7 +8,6 @@ Group:
 - afrancken
 
 
-
 ## Usage
 
 The following assumes that you either...
@@ -46,6 +45,8 @@ The way to quickly get all results presented in the report; at once.
 
 
 ### Bonus: FlightGear interface
+
+![F16 Landing GIF snippet](./Outputs/Ch7_Landing/F16_Landing.gif)
 
 For a nice visualization:
 1. install FlightGear [http://wiki.flightgear.org](http://wiki.flightgear.org)
