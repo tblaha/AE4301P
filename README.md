@@ -48,6 +48,8 @@ The way to quickly get all results presented in the report; at once.
 
 ![F16 Landing GIF snippet](./Outputs/Ch7_Landing/F16_Landing.gif)
 
+The full movie on youtube: [www.youtube.com/watch?v=lUQh3Rl52io](https://www.youtube.com/watch?v=lUQh3Rl52io)
+
 For a nice visualization:
 1. install FlightGear [http://wiki.flightgear.org](http://wiki.flightgear.org)
 2. adapt your installation-path in `runfg.sh` (tested on Linux) or `runfg.bat` (untested!)
