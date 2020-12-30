@@ -11,20 +11,21 @@
 %================================================
 %clear;
 
-addpath ./F16Sim/obsmutoolsfornewermatlabversions -END % required for some new MATLAB versions
+addpath ./ExternalModules/F16Sim/obsmutoolsfornewermatlabversions -END % required for some new MATLAB versions
 
 global fi_flag_Simulink
 
-if (exist("SL_lin_block", 'var') == 0) || (exist("an_output", 'var') == 0)
-    sprintf("using Standard LIN_F16Block.mdl for linearization")
-    
-    SL_lin_block = 'LIN_F16Block';
+if (exist("an_output", 'var') == 0)
     an_output = false;
 end
 
 if an_output
+    SL_lin_block = 'LIN_F16Block_an';
+    disp("FindF16Dynamics_noninteractive.m: using Modified LIN_F16Block_an.mdl for linearization")
     long_CD_rows = [21 23 25 26 29 37];
 else
+    SL_lin_block = 'LIN_F16Block';
+    % disp("FindF16Dynamics_noninteractive.m: using Standard LIN_F16Block.mdl for linearization")
     long_CD_rows = [21 23 25 26 29];
 end
 

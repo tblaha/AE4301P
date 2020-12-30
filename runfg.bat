@@ -1,4 +1,4 @@
-set relpath=\FlightGearAircraft\
+set relpath=\ExternalModules\FlightGearAircraft\
 set curdir=%cd% and %relpath%
 
 C:

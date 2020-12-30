@@ -1,34 +1,72 @@
+%% clear everything
+
+% Clear command window:
+clc;
+
+% Close figures:
+try
+  close('all', 'hidden');
+catch  % do nothing
+end
+
+% clear workspace
+clear
+
+% Close open files:
+fclose('all');
+
+% Reset the warning status   EDITED:
+warning('off', 'all');
+
+
 %% make path
 
-addpath("F16Sim")
-addpath("F16Sim_rev")
-addpath("SubLibrary")
-addpath("fc_files")
-addpath("export_fig")
+disp("setup.m: Setting up matlab-path")
+% restore path
+restoredefaultpath
+
+% external stuff
+addpath("ExternalModules")
+addpath("ExternalModules/F16Sim")
+addpath("ExternalModules/export_fig")
+
+% F16 simulator modifications
+addpath(genpath("F16Sim_rev"))
+
+% Functions/Models/Outputs
+addpath(genpath("SubLibrary"))
+addpath(genpath("SSModels"))
+addpath(genpath("SLModels"))
+
+% outputs
+mkdir("Outputs")
+addpath(genpath("Outputs"))
 
 
 %% Check for mex and if not existent, mex it outselves
 
 if exist('nlplant') ~= 3
-    disp("Mex doesn't exist in F16Sim directory")
+    disp("setup.m: Mex doesn't exist in F16Sim directory")
     disp("")
-    disp("Attempting Compilation")
-    disp("----------------")
+    disp("setup.m: Attempting Compilation")
+    disp("setup.m: ----------------")
     
     pause on
     pause(2)
     pause off
     
-    cd F16Sim
+    cd ExternalModules/F16Sim
     
     try
         o = evalc("mex nlplant.c");
     catch
         if exist('nlplant') == 3
-            disp("Mex Produced and error; but we can continue")
+            disp("setup.m: Mexing produced an error; but we can continue")
+        else
+            disp("setup.m: mexing failed. Please manage to obtain nlplant.*mex yourself")
         end
     end
     
-    cd ../
+    cd ../../
        
 end

@@ -1,6 +1,6 @@
 #! /bin/csh 
 
-fg_ac_path="$(pwd)/FlightGearAircraft/"
+fg_ac_path="$(pwd)/ExternalModules/FlightGearAircraft/"
 
 cd /usr/share/flightgear
 

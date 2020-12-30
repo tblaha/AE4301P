@@ -1,12 +1,11 @@
 
-fprintf("gen_fc: Generating 8 flight conditions to be written to fc.mat...")
+
+fprintf("gen_fc: Generating 8 flight conditions to be written to FlightConditions.mat...")
 
 % columns: altitude [ft] | speed [ft/s] | HiFi 1/LoFi 0 | reduction level
 fc = struct();
-fc.con = zeros(8, 4);
-fc.name = cell(8, 1);
-
-%%% TODO: find out leading edge flap
+fc.con = zeros(9, 4);
+fc.name = cell(9, 1);
 
 
 %% standard
@@ -71,7 +70,14 @@ fc.name{9}   = "GS_LoFi_2DoF";
 
 %% save as mat file
 
-save('fc.mat', 'fc')
+% make directory for output files, if it doesn't already exist
+outdir = "Outputs/Ch4_0_TrimLin";
+mkdir(outdir)
+addpath(outdir)
+
+% finally, save
+save('Outputs/Ch4_0_TrimLin/FlightConditions.mat', 'fc')
+
 
 %%
 
