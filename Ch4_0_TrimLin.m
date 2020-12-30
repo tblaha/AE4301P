@@ -12,6 +12,7 @@ end
 
 %% generate and load the flight conditions
 
+run gen_fc.m
 disp("trim-lin: Load FlightConditions.mat file...")
 load('FlightConditions');
 

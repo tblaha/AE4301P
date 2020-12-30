@@ -206,40 +206,6 @@ h_flare = -1*tau*h_dot_flare_zero; %[ft]
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Run Simulation and Post Process %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-out = sim('Landing');
-
-%%
-% naming of outputs
-Pitch_Hold_Names = ["\Delta \theta_{ref}"; "\Delta \theta";
-                    "\Delta q_{ref}"; "\Delta q";
-                    "\Delta \delta_{e_{ref}}"; "\Delta \delta_{e}";
-                    ];
-Speed_Hold_Names = ["\Delta \delta_{t_{ref}}"; "\Delta \delta_t";
-                    "Thrust"; "\Delta u";
-                    ];
-
-Glideslope_Names = ["\gamma"; "\Gamma"; 
-                    "GS active"; "GS gain"; 
-                    "\Delta \theta_{ref, GS}"; "\Delta \theta";
-                    ];
-
-Flare_Names = ["$\dot{h}_{ref}$"; "$\dot{h}$";
-               "Flare active"; "h"; "x";
-               "$\Delta \theta_{ref, Flare}$";
-               ];
-
-
-%% Plot Simulation Outputs
-
-run plot_SL_outputs.m
-
-
-
-
 
 
 

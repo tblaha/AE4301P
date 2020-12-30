@@ -1,114 +1,86 @@
-## Git introduction
-- Git is a versioning management tool, written originally for the 
-Linux kernel by the original developer of Linux.
-- Github.com is the most popular hosting site for git **repositories**.
+# F-16 Pitch Stability Augmentation and Landing Controller
 
-### Basic functioning of git:
-- **everyone always has the complete version history** on his local machine in a folder called the "working directory (**wd**)"
-    - this is called the **repository**
-- incremental updates made by you in the wd can be packaged as a "**commit**"
-    - a commit is a discrete update ontop of a previous commit
-    - commits are uniquely identified by a long hash (or the first 7 characters of it)
-    - generally, commits are immutable; once changes have been packaged, the cannot be un-packaged
-    - it is possible to revert a commit by reversing the incremental changes in a new commit
-    - For instance, here, I reverted commit 5b5fba3 and then reverted its revertion
+... solving the tasks connected to the Delft Aerospace Engineering Course AE4301-P(roject).
+
+Group: 
+- tblaha, 4597176
+- lkaffa
+- afrancken
+
+
+
+## Usage
+
+The following assumes that you either...
+- ... have a c compiler that is working with MATLAB to produce `.mex` files for your system
+- ... OR: have obtained an executable `nlplant.*mex` for your system which is placed in `ExternalModules/F16Sim/`
+
+Also, the the code has been verified using the following MATLAB/Simulink and Toolbox versions:
 ```
-2bb0626 Revert "Revert "added installation instructions for gurobipy""
-bd6f7b1 Revert "added installation instructions for gurobipy"
-5b5fba3 added installation instructions for gurobipy
-a15b71d Initial Commit
+MATLAB                                                Version 9.6         (R2019a)
+Simulink                                              Version 9.3         (R2019a)
+Aerospace Blockset                                    Version 4.1         (R2019a)
+Aerospace Toolbox                                     Version 3.1         (R2019a)
+Control System Toolbox                                Version 10.6        (R2019a)
+Optimization Toolbox                                  Version 8.3         (R2019a)
+Robust Control Toolbox                                Version 6.6         (R2019a)
+Statistics and Machine Learning Toolbox               Version 11.5        (R2019a)
+Symbolic Math Toolbox                                 Version 8.3         (R2019a)
 ```
-- new commits made by you must be **pushed** to Github, for others to see them
-    - this has to happen manually
-- newer commits from others must be **pulled** from Github, for you to see them
-    - this has to happen manually and before any attempt at **pushing**
-- if there are new commits on github that was pushed there in the meantime:
-    - you have to first **merge** those commits with your local one into a third commit that sits ontop of both
-    - this **merging** is trivial if the two **parent** commits modified different files only
-        - all changes are kept then of course
-    - if the same file was modified in both parents, the you have to decide which lines to use from which version
-        - this has to be done with care to avoid reverting changes by someone else
 
-The repository can be made up of completely independend branches that can be 
-merged with each other to form new branches or to add a new feature from say
-a "development" into "full-application" branch. The "master" branch (at some 
-point to be renamed "main" to avoid slavery connotations...) is the default
-branch in github and it should contain the full application/project but not be
-used directly; only through merges from other branches to avoid everyone 
-working on the full project at the same time. In theory...
+### Quick and Clean
 
-        
-## Workflow of git in MATLAB Project:
-Matlab/SL has a version management feature called "Project" and it interfaces
-with git, nice!
+The way to quickly get all results presented in the report; at once.
+
+1. point MATLAB to the root directory
+2. open file `main.mlx` (it's a "matlab live script"; idea probably stolen from Jupyter)
+3. Run it entirely, or piece by piece and observe inline outputs and plots
 
 
-### Preparation of Matlab/Simulink for this project
+### Slow and Dirty
 
-Install the following toolboxes from the "Get add-on"-explorer or from
-re-running the matlab installer.
-- Simulink
-- Robust Control Toolbox               
-- Control System Toolbox                           
-- Optimization Toolbox
-- C-Compiler for Windows: Search Add-on explorer for "MinGW-w64" and follow instructions
+1. point MATLAB to the root directory
+2. run `setup.m`
+3. set the `show_plots` variable to either `"on"` or `"off"` (can simply be done in the console)
+4. run any of the subparts independently (like `Ch5_OpenLoop.m`)
 
 
-### Clone Repository
+### Bonus: FlightGear interface
 
-1. Install "commandline git" for Windows
-    1. https://gitforwindows.org/    Download installer and run it.
-    2. In the section on adjusting your PATH, choose the install option to <<Use Git from the Windows Command Prompt>>. This option adds Git to your PATH variable, so that MATLAB can communicate with Git.
-    3. In the section on configuring the line-ending conversions, choose the option <<Checkout as-is, commit as-is>> to avoid converting any line endings in files.
-2. Accept my invitation to the github repository AE4301P
-3. Clone the repository: Home tab > New > Project > From Git
-    1. Repository Path: https://github.com/tblaha/AE4301P.git
-    2. Sandbox: [as you like it, but must be empty folder]
-    3. Click "retrieve" and enter github credentials
-    4. "Project" window or dock (https://www.mathworks.com/help/examples/matlab/win64/exampleproject.png) should open and some stuff should happen, like mex compilation
-    5. Close the "project" window/dock
+For a nice visualization:
+1. install FlightGear [http://wiki.flightgear.org](http://wiki.flightgear.org)
+2. adapt your installation-path in `runfg.sh` (tested on Linux) or `runfg.bat` (untested!)
+3. run `runfg.{sh|bat}` --> FlightGear should show an F-16CJ on the ground somewhere
+4. prepare MATLAB workspace by running
+    - `setup.m`
+    - `Ch7_Landing.m`
+5. Uncomment the "Simulation Pace" block in the Top-Level of `SLModels/Landing.slx` and make sure it's set to `1` (real-time)
+6. Run the Simulink simulation (`Landing.slx`)
 
-### Opening the Project
-1. Everytime, before you start working, double-click on AE4301P.prj
-    1. This runs "setup.m", which configures path, checks for mex file and more in the future.
 
-### The Project window/dock
-1. Keep it open at all times! And keep it in the "All" tab!
-2. Forget about the "current folder" dock of MATLAB. All file operations 
-(opening, new files, renaming, moving, deleting, etc) must happen through the Project window.
-3. It shows 2 important file attributes
-    1. Whether it is managed and tracked by Projects and Git ("Status" column)
-    2. What is its status, has it been changed/added/deleted... ("Git" column)
-4. **All items you add must have the green tick in the "Status" column**
 
-### Using git
-1. **Whenever you do anything with git (even just switching branches), first commit your work and make sure you have 0 modified files**
-    1. This is referred to as a "clean" working directory (wd)
-2. **Commit** the changes you made
-    1. Click Commit
-    2. Enter a short descriptive message of your changes; click submit
-3. **Pull** new changes from the Github
-    1. Commit your work
-    2. Click on **Pull** and enter your github credentials
-    3. If there were new commits, they should now be merged into your local wd
-        1. if there are conflicting lines in files, fix them. 
-    4. Check what happened by clicking on "Branches"
-4. **Push** changes
-    1. Commit your work.
-    2. Pull from github to make sure you are up to date. Resolve any conflicts
-    3. Click on **Push**
-5. Switch **branch**
-    1. Click "Branches"
-    2. Select new branch, for instance "[...]/lin"
-    3. Click switch and confirm:
-        1. your local wd will now contain whatever is in the new branch
-    4. This branch window also shows you a brief commit history
-    
-    
-### Summary
+## Credits
 
-It may look intimidating, but remember the following well:
-
-If you follow the 2 **bold face** rules above, you will never lose any changes
-for real, they may just be a bit of work to dig up.
+We use a number of submodules in this repo (although regrettably, the haven't been implemented as
+proper git submodules ;-) ). They are attributed as follows:
+1. `ExternalModules/F16Sim/` 
+    - "Non-linear F-16 Simulation using Simulink and MATLAB"
+    - Richard S. Russell
+    - University of Minnesota, 2003
+    - Obtained from [www.researchgate.net/publication/2881317...](https://www.researchgate.net/publication/2881317_Non-linear_F-16_Simulation_using_Simulink_and_Matlab)
+2. `ExternalModules/export_fig/`
+    - "export_fig"
+    - Yair Altman
+    - Github, 2020 [github.com/altmany/export_fig/releases/tag/v3.14](https://github.com/altmany/export_fig/releases/tag/v3.14)
+    - Obtained from MATLAB Central File Exchange [www.mathworks.com/matlabcentral/fileexchange/23629-export_fig](https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig)
+3. `ExternalModules/FlightGearAircraft/f16/`
+    - "General Dynamics F-16 Fighting Falcon (for FlightGear)"
+    - Erik Hofman et at.
+    - SourceForge, 2020 [sourceforge.net/p/flightgear/fgaddon/HEAD/tree/trunk/Aircraft/f16/](http://sourceforge.net/p/flightgear/fgaddon/HEAD/tree/trunk/Aircraft/f16/)
+    - Obtained from [wiki.flightgear.org/General_Dynamics_F-16_Fighting_Falcon](http://wiki.flightgear.org/General_Dynamics_F-16_Fighting_Falcon)
+4. `ExternalModules/AssignmentPDFs/F16Sim_Manual.pdf`
+    - "Practical assignment AE4-301P: Exercise Automatic Flight Control System Design"
+    - Ewoud van Kampen
+    - TU Delft, 2020
+    - Obtained from BrightSpace
 

@@ -23,7 +23,7 @@ warning('off', 'all');
 
 disp("setup.m: Setting up matlab-path")
 % restore path
-restoredefaultpath
+path(pathdef)
 
 % external stuff
 addpath("ExternalModules")
@@ -41,6 +41,10 @@ addpath(genpath("SLModels"))
 % outputs
 mkdir("Outputs")
 addpath(genpath("Outputs"))
+
+%% default variables, if main is not run
+
+show_plots = "off";
 
 
 %% Check for mex and if not existent, mex it outselves
