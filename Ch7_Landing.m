@@ -31,6 +31,11 @@ mkdir(outdir)
 addpath(outdir)
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Basically, repeat the bulk of Ch6_q_Command %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %% get K_alpha and K_q gains
 
 % desired pole
@@ -40,9 +45,58 @@ z   = 0.5; % damping ratio
 recip_Ttheta2_target = 0.75*w_n; % reciprocal of the desired zero
 
 SS_long = TwoDoF.SS_long;
+xu      = TwoDoF.xu;
 run PlacePoles.m  % provides Ka and Kq
 
-% clean workspace
+
+%% get transfer functions
+
+% alias for no servo
+q_cmd = H_pp_filt_q;
+[~, zeta, ~] = damp(q_cmd);
+
+
+% alias for servo added back in
+% servo TF
+H_servo = 22.2/(s+22.2);
+
+% linearize simulink model with correct implementation of servos
+sim_servo = linmod("q_loop_servo");
+sim_servo_ss = ss(sim_servo.a, sim_servo.b, sim_servo.c, sim_servo.d);
+
+q_cmd_servo = zpk(minreal( tf(sim_servo_ss(2)) )); % 2nd output: q
+[~, zeta_servo, ~] = damp(q_cmd_servo);
+
+
+%% plot gust response 
+
+% define gust as task 6.3.4.
+v_z_gust = 4.572; % m/s
+a_ind = atan(v_z_gust / (0.3048 * xu(7))); % radians --> induced Delta AOA
+
+% invoke plotting subroutine
+run plot_gust_response.m
+
+% export figure to results folder
+set(h, 'Color', 'w');
+export_fig Outputs/Ch7_Landing/Landing_gust_response.eps -painters
+
+
+%% plot pulse response
+
+% in degrees after all...
+q_cmd   = 180/pi*q_cmd;
+q_cmd_servo = 180/pi*q_cmd_servo;
+
+% invoke plotting subroutine
+run plot_pulse_response.m
+
+% export figure to results folder
+set(step_up_down, 'Color', 'w');
+export_fig Outputs/Ch7_Landing/Landing_step_up_down.eps -painters
+
+
+%% clean workspace
 clearvars -except Ka Kq TwoDoF FiveDoF sys_pp LL_filt
 
 

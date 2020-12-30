@@ -53,8 +53,8 @@ clearvars -except show_plots fc zeros_el2an_sweep char_tab
 
 new_section("main: q-Command (Chapter 6) Pole Placement and Handling Characteristics")
 
-% note: To obtain the last line in Table xx; re-run Ch6_q_Command.m, but
-% uncomment line 54
+% note: To obtain the last line in Table 7; re-run Ch6_q_Command.m, but
+% uncomment line 55
 run Ch6_q_Command.m
 
 
