@@ -41,7 +41,7 @@ addpath(outdir)
 % desired pole
 % w_n = 0.03*xu(7)*0.3048; % natural freq
 w_n = 1 * 2 * pi; % natural freq; a bit arbitrary right now
-z   = 0.5; % damping ratio
+z   = 0.85; % damping ratio
 recip_Ttheta2_target = 0.75*w_n; % reciprocal of the desired zero
 
 SS_long = TwoDoF.SS_long;
@@ -70,6 +70,9 @@ q_cmd_servo = zpk(minreal( tf(sim_servo_ss(2)) )); % 2nd output: q
 
 %% plot gust response 
 
+% states at trim condition:
+trim_s = [xu(8), xu(11), xu(14)]'; % computed during trim_lin.m
+
 % define gust as task 6.3.4.
 v_z_gust = 4.572; % m/s
 a_ind = atan(v_z_gust / (0.3048 * xu(7))); % radians --> induced Delta AOA
@@ -84,6 +87,14 @@ export_fig Outputs/Ch7_Landing/Landing_gust_response.eps -painters
 
 %% plot pulse response
 
+% get characteristics and current zero for non-servo and servo systems
+% (only used for "Verification"
+[Omega_long, Zeta_long, P_long] = damp(q_cmd);
+T_theta2 = -1/q_cmd.Z{1};
+
+[Omega_long_servo, Zeta_long_servo, P_long_servo] = damp(q_cmd_servo);
+T_theta2_servo = -1/q_cmd_servo.Z{1};
+
 % in degrees after all...
 q_cmd   = 180/pi*q_cmd;
 q_cmd_servo = 180/pi*q_cmd_servo;
@@ -97,7 +108,10 @@ export_fig Outputs/Ch7_Landing/Landing_step_up_down.eps -painters
 
 
 %% clean workspace
-clearvars -except Ka Kq TwoDoF FiveDoF sys_pp LL_filt
+% clearvars -except Ka Kq TwoDoF FiveDoF sys_pp LL_filt
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -188,6 +202,42 @@ h_flare = -1*tau*h_dot_flare_zero; %[ft]
 % 
 % % actually use SISOtool
 % sisotool(sub_loop_tf)
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Run Simulation and Post Process %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+out = sim('Landing');
+
+%%
+% naming of outputs
+Pitch_Hold_Names = ["\Delta \theta_{ref}"; "\Delta \theta";
+                    "\Delta q_{ref}"; "\Delta q";
+                    "\Delta \delta_{e_{ref}}"; "\Delta \delta_{e}";
+                    ];
+Speed_Hold_Names = ["\Delta \delta_{t_{ref}}"; "\Delta \delta_t";
+                    "Thrust"; "\Delta u";
+                    ];
+
+Glideslope_Names = ["\gamma"; "\Gamma"; 
+                    "GS active"; "GS gain"; 
+                    "\Delta \theta_{ref, GS}"; "\Delta \theta";
+                    ];
+
+Flare_Names = ["$\dot{h}_{ref}$"; "$\dot{h}$";
+               "Flare active"; "h"; "x";
+               "$\Delta \theta_{ref, Flare}$";
+               ];
+
+
+%% Plot Simulation Outputs
+
+run plot_SL_outputs.m
+
+
 
 
 
