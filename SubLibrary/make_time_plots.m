@@ -36,8 +36,8 @@ zoom_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save plot
 filename = strcat("Outputs/Ch5_OpenLoop/", 'TR_Pitchrate_Phugoid_and_sp_long');
-print(plot_long_pitchrate, '-depsc2', '-painters', filename)  % looks better for some reason...
-% saveas(plot_long_pitchrate, filename, 'epsc2');
+print(plot_long_pitchrate, '-dpng', '-painters', filename)  % looks better for some reason...
+% saveas(plot_long_pitchrate, filename, 'png');
 
 
 
@@ -49,7 +49,7 @@ print(plot_long_pitchrate, '-depsc2', '-painters', filename)  % looks better for
 % SS_el_pitchrate = SS_long(4,2);
 % step(SS_el_pitchrate, 10);
 % filename = strcat("OL_results/", 'TR_Pitchrate_sp_long');
-% saveas(plot_long_pitchrate, filename, 'epsc');
+% saveas(plot_long_pitchrate, filename, 'png');
 
 %% Lateral
 
@@ -73,8 +73,8 @@ base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
 filename = strcat("Outputs/Ch5_OpenLoop/", 'TR_Yawrate_dr_lat');
-print(plot_lat_yawrate, '-depsc2', '-painters', filename)  % looks better for some reason...
-% saveas(plot_lat_yawrate, filename, 'epsc');
+print(plot_lat_yawrate, '-dpng', '-painters', filename)  % looks better for some reason...
+% saveas(plot_lat_yawrate, filename, 'png');
 
 
 
@@ -98,8 +98,8 @@ base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
 filename = strcat("Outputs/Ch5_OpenLoop/", 'TR_rollrate_spiral_lat');
-print(plot_lat_rollangle, '-depsc2', '-painters', filename)  % looks better for some reason...
-% saveas(plot_lat_rollangle, filename, 'epsc');
+print(plot_lat_rollangle, '-dpng', '-painters', filename)  % looks better for some reason...
+% saveas(plot_lat_rollangle, filename, 'png');
 
 
 
@@ -123,8 +123,8 @@ base_ax.Children(1).Children(2).LineWidth=1.5;
 
 % save
 filename = strcat("Outputs/Ch5_OpenLoop/", 'TR_rollrate_aper_lat');
-print(plot_lat_rollrate, '-depsc2', '-painters', filename)  % looks better for some reason...
-% saveas(plot_lat_rollrate, filename, 'epsc');
+print(plot_lat_rollrate, '-dpng', '-painters', filename)  % looks better for some reason...
+% saveas(plot_lat_rollrate, filename, 'png');
 
 
 

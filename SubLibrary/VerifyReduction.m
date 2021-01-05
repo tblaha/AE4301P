@@ -142,9 +142,9 @@ zoom_ax.SortMethod='ChildOrder';
 
 
 filename = strcat("OL_plot_files/", "ReductionComparison");
-% print(h, '-depsc2', '-painters', filename)
+% print(h, '-dpng', '-painters', filename)
 set(gcf, 'Color', 'w');
-export_fig Outputs/Ch4_0_TrimLin/ReductionComparison.eps -painters
+export_fig Outputs/Ch4_0_TrimLin/ReductionComparison.png -painters
 
 
 
@@ -188,7 +188,7 @@ legend({'8DoF -- Full Model',...
         "fontsize", 10, "Location", "NorthEast")
 
 set(gcf, 'Color', 'w');
-export_fig Outputs/Ch4_0_TrimLin/ReductionComparisonTheta.eps -depsc -painters
+export_fig Outputs/Ch4_0_TrimLin/ReductionComparisonTheta.png -dpng -painters
 
 
 %% helper functions

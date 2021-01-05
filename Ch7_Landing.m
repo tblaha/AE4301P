@@ -82,7 +82,7 @@ run plot_gust_response.m
 
 % export figure to results folder
 set(h, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/Landing_gust_response.eps -painters
+export_fig Outputs/Ch7_Landing/Landing_gust_response.png -painters
 
 
 %% plot pulse response
@@ -104,7 +104,7 @@ run plot_pulse_response.m
 
 % export figure to results folder
 set(step_up_down, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/Landing_step_up_down.eps -painters
+export_fig Outputs/Ch7_Landing/Landing_step_up_down.png -painters
 
 
 %% clean workspace

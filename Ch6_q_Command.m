@@ -126,7 +126,7 @@ run plot_gust_response.m
 
 % export figure to results folder
 set(h, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/gust_response.eps -painters
+export_fig Outputs/Ch6_q_Command/gust_response.png -painters
 
 
 %% Gibson 1 -- Dropback (DB)
@@ -144,7 +144,7 @@ run plot_pulse_response.m
 
 % export figure to results folder
 set(step_up_down, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/step_up_down.eps -painters
+export_fig Outputs/Ch6_q_Command/step_up_down.png -painters
 
 
 %% Gibson II (PIO)
@@ -170,7 +170,7 @@ run plot_bode.m
 
 % export figure to results folder
 set(bodes, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/bode_plots.eps -painters
+export_fig Outputs/Ch6_q_Command/bode_plots.png -painters
 
 
 

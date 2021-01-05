@@ -196,7 +196,7 @@ legend(base_ax, "$x_a$ = +"+string(xa_sweep)+"ft",...
 
 % write to output folder
 set(el2an_fig, 'Color', 'w');
-export_fig Outputs/Ch4_1_Accel/xa_sweep.eps -painters
+export_fig Outputs/Ch4_1_Accel/xa_sweep.png -painters
 
 
 % output table as well
