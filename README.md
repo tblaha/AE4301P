@@ -32,7 +32,7 @@ Symbolic Math Toolbox                     Version 8.3         (R2019a)
 
 ### Quick and Clean
 
-The way to quickly get all results presented in the report; at once.
+The way to quickly get all results presented in the report; at once. Will take around 2 to 4 minutes, depending on hardware.
 
 1. point MATLAB to the root directory
 2. open file `main.mlx` (it's a "matlab live script"; idea probably stolen from Jupyter)
