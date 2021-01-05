@@ -19,15 +19,15 @@ The following assumes that either...
 
 Also, the the code has been verified using the following MATLAB/Simulink and Toolbox versions:
 ```
-MATLAB                                                Version 9.6         (R2019a)
-Simulink                                              Version 9.3         (R2019a)
-Aerospace Blockset                                    Version 4.1         (R2019a)
-Aerospace Toolbox                                     Version 3.1         (R2019a)
-Control System Toolbox                                Version 10.6        (R2019a)
-Optimization Toolbox                                  Version 8.3         (R2019a)
-Robust Control Toolbox                                Version 6.6         (R2019a)
-Statistics and Machine Learning Toolbox               Version 11.5        (R2019a)
-Symbolic Math Toolbox                                 Version 8.3         (R2019a)
+MATLAB                                    Version 9.6         (R2019a)
+Simulink                                  Version 9.3         (R2019a)
+(Aerospace Blockset                       Version 4.1         (R2019a)) --> only needed if FlightGear is used
+(Aerospace Toolbox                        Version 3.1         (R2019a)) --> only needed if FlightGear is used
+Control System Toolbox                    Version 10.6        (R2019a)
+Optimization Toolbox                      Version 8.3         (R2019a)
+Robust Control Toolbox                    Version 6.6         (R2019a)
+Statistics and Machine Learning Toolbox   Version 11.5        (R2019a)
+Symbolic Math Toolbox                     Version 8.3         (R2019a)
 ```
 
 ### Quick and Clean
@@ -60,7 +60,7 @@ For a nice visualization:
 4. prepare MATLAB workspace by running
     - `setup.m`
     - `Ch7_Landing.m`
-5. Uncomment the "Simulation Pace" block in the Top-Level of `SLModels/Landing.slx` and make sure it's set to `1` (real-time)
+5. Uncomment the `"Simulation Pace"` and `"Visualization"` blocks in the Top-Level of `SLModels/Landing.slx` and make sure it's set to `1` (real-time)
 6. Run the Simulink simulation (`Landing.slx`)
 
 
