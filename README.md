@@ -10,9 +10,12 @@ Group:
 
 ## Usage
 
-The following assumes that you either...
-- ... have a c compiler that is working with MATLAB to produce `.mex` files for your system
-- ... OR: have obtained an executable `nlplant.*mex` for your system which is placed in `ExternalModules/F16Sim/`
+The following assumes that either...
+- ... the provided `nlplant.mex*` files (compiled for Win10, Linux and MacOS) work on your machine (`ExternalModules/F16Sim/nlplant.mex*`) and you don't get errors from them when running this project
+- ... OR: you have deleted those `nlplant.mex*` files that don't work and replaced them with a compatible `nlplant.mex*` file that you have obtained elsewhere.
+- ... OR: you have deleted those `nlplant.mex*`files that don't work and you have a supported `c` Compiler on your system (for instance `gcc`) that is setup for MATLAB (see links below). In that case you don't have to do anything more as `setup.m` will attempt compilation if it doesn't find `nlplant.mex*` files.
+    - ![nl.mathworks.com/support/requirements/supported-compilers.html](https://nl.mathworks.com/support/requirements/supported-compilers.html)
+    - ![nl.mathworks.com/help/matlab/matlab_external/build-an-executable-mex-file.html](https://nl.mathworks.com/help/matlab/matlab_external/build-an-executable-mex-file.html)
 
 Also, the the code has been verified using the following MATLAB/Simulink and Toolbox versions:
 ```

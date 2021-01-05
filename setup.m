@@ -50,7 +50,7 @@ show_plots = "off";
 %% Check for mex and if not existent, mex it outselves
 
 if exist('nlplant') ~= 3
-    disp("setup.m: Mex doesn't exist in F16Sim directory")
+    disp("setup.m: Mex doesn't exist in ExternalModules/F16Sim directory")
     disp("")
     disp("setup.m: Attempting Compilation")
     disp("setup.m: ----------------")
