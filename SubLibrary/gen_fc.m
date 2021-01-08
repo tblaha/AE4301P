@@ -4,8 +4,8 @@ fprintf("gen_fc: Generating 8 flight conditions to be written to FlightCondition
 
 % columns: altitude [ft] | speed [ft/s] | HiFi 1/LoFi 0 | reduction level
 fc = struct();
-fc.con = zeros(9, 4);
-fc.name = cell(9, 1);
+fc.con = zeros(10, 4);
+fc.name = cell(10, 1);
 
 
 %% standard
@@ -52,20 +52,29 @@ fc.con(7, :) = [30000, 900, 0, 2];
 fc.name{7}   = "Std_LoFi_2DoF";
 
 
+%% Glideslope condition full HiFi (only for residual comparison)
+% 5000ft, LoFi, reduced to 5DoF
+% Longitudinal States --> h, u, \alpha, \delta, q
+% Lateral States -->  all
+fc.con(8, :) = [5000, 300, 1, 0];
+fc.name{8}   = "GS_HiFi_full";
+
+
+
 %% Glideslope condition reduced 5-DoF
 % 5000ft, LoFi, reduced to 5DoF
 % Longitudinal States --> h, u, \alpha, \delta, q
 % Lateral States -->  all
-fc.con(8, :) = [5000, 300, 0, 5];
-fc.name{8}   = "GS_LoFi_5DoF";
+fc.con(9, :) = [5000, 300, 0, 5];
+fc.name{9}   = "GS_LoFi_5DoF";
 
 
 %% Glideslope condition reduced 2-DoF (for pole-placement)
 % 5000ft, LoFi, reduced to 2DoF
 % Longitudinal States --> h, u, \alpha, \delta, q
 % Lateral States -->  all
-fc.con(9, :) = [5000, 300, 0, 2];
-fc.name{9}   = "GS_LoFi_2DoF";
+fc.con(10, :) = [5000, 300, 0, 2];
+fc.name{10}   = "GS_LoFi_2DoF";
 
 
 %% save as mat file

@@ -102,7 +102,7 @@ linkaxes(axs, 'y')
 
 % export figure to results folder
 set(Pitch_Hold_handle, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/PitchController.png -painters
+export_fig('Outputs/Ch7_Landing/PitchController.png', '-dpng', '-painters', Pitch_Hold_handle)
 
 
 
@@ -149,7 +149,7 @@ linkaxes(axs, 'y')
 
 % export figure to results folder
 set(Speed_Hold_handle, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/SpeedMode.png -painters
+export_fig Outputs/Ch7_Landing/SpeedMode.png -dpng -painters
 
 
 
@@ -196,7 +196,7 @@ legend("Location", "East", "FontSize", lfs)
 
 % export figure to results folder
 set(Glideslope_handle, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/GlideslopeCoupler.png -painters
+export_fig('Outputs/Ch7_Landing/GlideslopeCoupler.png', '-dpng', '-painters', Glideslope_handle)
 
 
 
@@ -263,7 +263,7 @@ legend("Location", "NorthEast", "Fontsize", lfs)
 
 % export figure to results folder
 set(Flare_handle, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/FlareController.png -painters
+export_fig('Outputs/Ch7_Landing/FlareController.png', '-dpng', '-painters', Flare_handle)
 
 
 

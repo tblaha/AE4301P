@@ -14,7 +14,7 @@
 VerifyDirectory(lastdir)
 
 % load Steady State system; if it doesn't exist, run Ch4_0_TrimLin.m
-fprintf("Ch5_OpenLoop: Checking if SS matrices exist...")
+fprintf("VerifyReduction.m: Checking if SS matrices exist...")
 if exist("SS_Std_LoFi_4DoF.mat", 'file') == 2
     fprintf("OK\n")
     
@@ -24,7 +24,7 @@ else
     
     run Ch4_0_TrimLin.m
     
-    fprintf("Ch5_OpenLoop: Importing SS matrix...")
+    fprintf("VerifyReduction: Importing SS matrix...")
     
     load('SS_Std_LoFi_4DoF.mat');
     fprintf("OK, recovered\n")
@@ -96,7 +96,7 @@ red2 = load("SS_Std_LoFi_2DoF");
 H_red2 = tf(red2.SS_long);
 H_red2_el_2_q = H_red2(2, 2);
 
-h=figure("Name", "ReductionComp",...
+q_comp=figure("Name", "ReductionComp",...
          "Position", [100, 100, 800, 500],...
          'Visible', show_plots);
    
@@ -112,7 +112,7 @@ step(H_red4_el_2_q-H_full_elref_2_q, 10);
 step(H_red2_el_2_q-H_full_elref_2_q, 10);
 hold off
 
-ax = gca(h);
+ax = gca(q_comp);
 lss = ["-", "--", "-.", "-"];
 for i = 1:length(ax.Children)-1
     ax.Children(i).Children(2).LineWidth=2;
@@ -121,7 +121,7 @@ for i = 1:length(ax.Children)-1
 end
 ax.SortMethod='ChildOrder';
 
-legend({'8DoF -- Full Model',...
+legend({'Full Linear Model',...
         '5DoF -- Actuator Reduced',...
         '4DoF -- No Altitude',...
         '2DoF -- Short Period Model'},...
@@ -129,7 +129,7 @@ legend({'8DoF -- Full Model',...
     
     
 zoom_ax = axes('position',[.225 .2 .3 .35]);
-p = make_plot_options("8DoF -- Full Model Response",...
+p = make_plot_options("Full Linear Model Response",...
                       "Time", "q ($\circ$ / s)");
 p.Grid = 'off';
 p.Title.FontSize = 12; p.XLabel.FontSize = 8; p.YLabel.FontSize = 8;
@@ -143,8 +143,8 @@ zoom_ax.SortMethod='ChildOrder';
 
 filename = strcat("OL_plot_files/", "ReductionComparison");
 % print(h, '-dpng', '-painters', filename)
-set(gcf, 'Color', 'w');
-export_fig Outputs/Ch4_0_TrimLin/ReductionComparison.png -painters
+set(q_comp, 'Color', 'w');
+export_fig('Outputs/Ch4_0_TrimLin/ReductionComparison.png', '-dpng', '-painters', q_comp)
 
 
 
@@ -156,11 +156,11 @@ H_red5_elref_2_theta = H_red5(4, 2);
 H_red4_elref_2_theta = H_red4(3, 2);
 H_red2_elref_2_theta = H_red2(2, 2) * 1/s;
 
-h=figure("Name", "ReductionCompTheta",...
+theta_comp=figure("Name", "ReductionCompTheta",...
          "Position", [100, 100, 800, 500],...
          'Visible', show_plots);
    
-t = "Longitudinal Reduction Error -- Elevator Step -- theta";
+t = "Longitudinal Reduction Models -- Elevator Step -- theta";
 XL = "Time";
 YL = "\theta (\circ)";
 p = make_plot_options(t, XL, YL);
@@ -173,7 +173,7 @@ step(H_red4_elref_2_theta, 10);
 step(H_red2_elref_2_theta, 10);
 hold off
 
-ax = gca(h);
+ax = gca(theta_comp);
 lss = ["-", "--", "-.", "-"];
 for i = 1:length(ax.Children)-1
     ax.Children(i).Children(2).LineWidth=2;
@@ -181,14 +181,14 @@ for i = 1:length(ax.Children)-1
 end
 ax.SortMethod='ChildOrder';
 
-legend({'8DoF -- Full Model',...
+legend({'Full Linear Model',...
         '5DoF -- Actuator Red.',...
         '4DoF -- No Altitude',...
         '2DoF -- Short Period'},...
         "fontsize", 10, "Location", "NorthEast")
 
-set(gcf, 'Color', 'w');
-export_fig Outputs/Ch4_0_TrimLin/ReductionComparisonTheta.png -dpng -painters
+set(theta_comp, 'Color', 'w');
+export_fig('Outputs/Ch4_0_TrimLin/ReductionComparisonTheta.png', '-dpng', '-painters', theta_comp)
 
 
 %% helper functions

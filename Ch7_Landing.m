@@ -49,7 +49,15 @@ xu      = TwoDoF.xu;
 run PlacePoles.m  % provides Ka and Kq
 
 
-%% get transfer functions
+
+%% Open Loop dynamics
+
+ss_OL = ss(A, B, C, D);
+tf_OL_el2q = zpk(minreal(tf(ss_OL(2))));
+
+
+
+%% get transfer functions of the pole placed systems
 
 % alias for no servo
 q_cmd = H_pp_filt_q;
@@ -81,8 +89,8 @@ a_ind = atan(v_z_gust / (0.3048 * xu(7))); % radians --> induced Delta AOA
 run plot_gust_response.m
 
 % export figure to results folder
-set(h, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/Landing_gust_response.png -painters
+set(GR, 'Color', 'w');
+export_fig('Outputs/Ch7_Landing/Landing_gust_response.png', '-dpng', '-painters', GR)
 
 
 %% plot pulse response
@@ -104,13 +112,11 @@ run plot_pulse_response.m
 
 % export figure to results folder
 set(step_up_down, 'Color', 'w');
-export_fig Outputs/Ch7_Landing/Landing_step_up_down.png -painters
+export_fig('Outputs/Ch7_Landing/Landing_step_up_down.png', '-dpng', '-painters', step_up_down)
 
 
 %% clean workspace
 % clearvars -except Ka Kq TwoDoF FiveDoF sys_pp LL_filt
-
-
 
 
 

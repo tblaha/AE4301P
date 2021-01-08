@@ -67,7 +67,7 @@ end
 OPTIONS = optimset('TolFun',1e-10,'TolX',1e-10,'MaxFunEvals',5e+04,'MaxIter',1e+04);
 
 iter_count = 1;
-iter_max = 2;
+iter_max = 1;
 while iter_count <= iter_max
    
     [UX,FVAL,EXITFLAG,OUTPUT] = fminsearch('trimfun',UX0,OPTIONS);

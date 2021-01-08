@@ -117,6 +117,37 @@ end
 
 cd("../../")
 
+%%
+
+FC1_LoFi = load("Outputs/Ch4_0_TrimLin/SS_Std_LoFi_full.mat");
+FC1_HiFi = load("Outputs/Ch4_0_TrimLin/SS_Std_HiFi_full.mat");
+FC2_LoFi = load("Outputs/Ch4_0_TrimLin/SS_Accel_LoFi_full.mat");
+FC2_HiFi = load("Outputs/Ch4_0_TrimLin/SS_Accel_HiFi_full.mat");
+FC3_LoFi = load("Outputs/Ch4_0_TrimLin/SS_GS_LoFi_5DoF.mat");
+FC3_HiFi = load("Outputs/Ch4_0_TrimLin/SS_GS_HiFi_full.mat");
+
+Cost_residuals = [FC1_LoFi.cost,
+                  FC1_HiFi.cost,
+                  FC2_LoFi.cost,
+                  FC2_HiFi.cost,
+                  FC3_LoFi.cost,
+                  FC3_HiFi.cost
+                  ];
+
+FC_names = ["Cruise LoFi",
+            "Cruise HiFi",
+            "Accel LoFi",
+            "Accel HiFi",
+            "Landing LoFi",
+            "Landing HiFi",
+            ];
+
+cost_residuals_tab = table(Cost_residuals, 'RowNames', FC_names);
+cost_residuals_tab
+
+writetable(cost_residuals_tab,...
+           'Outputs/Ch4_0_TrimLin/cost_residuals_tab.csv',...
+           'WriteRowNames', true)
 
 %% 
 

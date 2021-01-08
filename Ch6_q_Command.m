@@ -78,24 +78,58 @@ q_cmd_servo = zpk(minreal( tf(sim_servo_ss(2)) )); % 2nd output: q
 
 
 
+%% Open Loop dynamics
+
+ss_OL = ss(A, B, C, D);
+tf_OL_el2q = zpk(minreal(tf(ss_OL(2))));
+
+
+
+%% print table of basic values:
+
+g = 9.80655; % gravity
+V0 = xu(7) * 0.3048; % trimmed speed in m/s
+
+% get characteristics and zero of open loop system
+[Omega_long_OL, Zeta_long_OL, P_long_OL] = damp(tf_OL_el2q);
+T_theta2_OL = -1/tf_OL_el2q.Z{1};
+
+% get characteristics and zero for non-servo 
+[Omega_long, Zeta_long, P_long] = damp(q_cmd);
+T_theta2 = -1/q_cmd.Z{1};
+
+% and servo system:
+[Omega_long_servo, Zeta_long_servo, P_long_servo] = damp(q_cmd_servo);
+T_theta2_servo = -1/q_cmd_servo.Z{1};
+
+
+% summarize in table
+OL_tab = [Omega_long_OL(1); Zeta_long_OL(1); T_theta2_OL; P_long_OL(1)];
+PP_tab = [Omega_long(1); Zeta_long(1); T_theta2; P_long(1)];
+PP_servo_tab = [Omega_long_servo(1); Zeta_long_servo(1); T_theta2_servo; P_long_servo(1)];
+
+BasicCharTab = table(OL_tab, PP_tab, PP_servo_tab,...
+    'RowNames', ["Omega", "Zeta", "T_theta2", "Pole"],...
+    'VariableNames', ["OpenLoop", "PolePlaced", "PolePlacedWithServo"]);
+
+writetable(BasicCharTab, 'Outputs/Ch6_q_Command/BasicChar.csv',...
+                        'WriteRowNames', true)
+BasicCharTab
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Calculate All Handling Criteria %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % we calculate CAP as well as Gibson 1 and 2 and verify their results
 % also, vertical gust response is verified
-g = 9.80655; % gravity
-V0 = xu(7) * 0.3048; % trimmed speed in m/s
+
 
 %% CAP (Control Anticipation Parameters)
 
-% get characteristics and current zero for non-servo and servo systems
-[Omega_long, Zeta_long, P_long] = damp(q_cmd);
-T_theta2 = -1/q_cmd.Z{1};
-
-[Omega_long_servo, Zeta_long_servo, P_long_servo] = damp(q_cmd_servo);
-T_theta2_servo = -1/q_cmd_servo.Z{1};
-
 % calculate CAP as Equation 6.3 in the Assignment
+CAP_OL    = (g * (Omega_long_OL(1))^2 * T_theta2_OL )       / V0;
 CAP       = (g * (Omega_long(1))^2 * T_theta2 )             / V0;
 CAP_servo = (g * (Omega_long_servo(1))^2 * T_theta2_servo ) / V0;
 
@@ -125,8 +159,8 @@ el_max_Ka = Ka * a_ind;
 run plot_gust_response.m
 
 % export figure to results folder
-set(h, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/gust_response.png -painters
+set(GR, 'Color', 'w');
+export_fig('Outputs/Ch6_q_Command/gust_response.png', '-dpng', '-painters', GR)
 
 
 %% Gibson 1 -- Dropback (DB)
@@ -144,12 +178,16 @@ run plot_pulse_response.m
 
 % export figure to results folder
 set(step_up_down, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/step_up_down.png -painters
+export_fig('Outputs/Ch6_q_Command/step_up_down.png', '-dpng', '-painters', step_up_down)
 
 
 %% Gibson II (PIO)
 % we shall see that it was necessary to get the elevator deflection back
 % into the model to make sure that we actually get any -180^ crossings...
+
+% open loop model:
+tf_OL_el2theta = tf_OL_el2q * 1/s; % integrate once for theta
+[slope_OL, frequency_cross_OL] = phase_rate_check(-tf_OL_el2theta);
 
 % no-servo model:
 q_cmd_theta = q_cmd * 1/s; % integrate once for theta
@@ -159,18 +197,13 @@ q_cmd_theta = q_cmd * 1/s; % integrate once for theta
 q_cmd_servo_theta = minreal(q_cmd_servo * 1/s); % integrate once
 [slope_servo,frequency_cross_servo] = phase_rate_check(-q_cmd_servo_theta);
 
-% to prove that it makes no sense to "post-convolve" the elevator servo
-% dynamics back into the model:
-q_cmd_convservo_theta = (q_cmd * H_servo) * 1/s; % integrate once for theta
-[slope_convservo, frequency_cross_convservo] =...
-    phase_rate_check(-q_cmd_convservo_theta);
 
 % invoke plotting subroutine
 run plot_bode.m
 
 % export figure to results folder
 set(bodes, 'Color', 'w');
-export_fig Outputs/Ch6_q_Command/bode_plots.png -painters
+export_fig('Outputs/Ch6_q_Command/bode_plots.png', '-dpng', '-painters', bodes)
 
 
 
@@ -180,15 +213,16 @@ export_fig Outputs/Ch6_q_Command/bode_plots.png -painters
 
 % names of the parameters
 Parameters = ["CAP", "zeta", ...
-                     "Gibson 1 - qm/qs", "Gibson 1 - DB/qs", ...
-                     "Gibson 2 - XOver", "Gibson 2 - Phase Rate",...
-                     "Gust max el"];
+              "Gibson 1 - qm/qs", "Gibson 1 - DB/qs", ...
+              "Gibson 2 - XOver", "Gibson 2 - Phase Rate",...
+              "Gust max el"];
 
 % Names of the two cases: no-servo and servo in loop
-models = ["NoServo", "ServoInLoop"];
+models = ["OpenLoop", "NoServo", "ServoInLoop"];
 
 % make table
 q_ctl_table = table(...
+    [CAP_OL, Zeta_long_OL(1), q_ratio_OL, DB_over_qss_OL, frequency_cross_OL, slope_OL, trim_s(3)]',...
     [CAP, zeta(1), q_ratio, DB_over_qss, frequency_cross, slope, d_e_max]',...
     [CAP_servo, zeta_servo(1), q_ratio_servo, DB_over_qss_servo,...
      frequency_cross_servo, slope_servo, d_e_max_servo]',...
