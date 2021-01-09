@@ -13,7 +13,6 @@ q_steady_state_servo = evalfr(q_cmd_servo, 0); % final value theorem
 
 
 
-tf_OL_el2q = tf_OL_el2q * q_steady_state/q_steady_state_OL;
 
 
 
@@ -31,18 +30,20 @@ yOL = lsim(tf_OL_el2q, u(t), t);
 y   = lsim(q_cmd, u(t), t);
 ys  = lsim(q_cmd_servo, u(t), t);
 
-% get q and theta responses
+% get q and theta responses and inputs
 qOL_u = yOL;
 thetaOL_u = cumsum(yOL*dt); % lazy integration for theta
 q_u = y;
 theta_u = cumsum(y*dt);
 qs_u = ys;
 thetas_u = cumsum(ys*dt);
+input_u = u(t) * q_steady_state;
+input_int_u = cumsum(u(t) * q_steady_state*dt);
 
 % calculate drop back at 4*tmax/6 wrt to steady state
-DB_OL = (interp1(t, thetaOL_u, 5*tmax/9)) - thetaOL_u(end);
-DB = (interp1(t, theta_u, 5*tmax/9)) - theta_u(end);
-DB_servo = (interp1(t, thetas_u, 5*tmax/9)) - thetas_u(end);
+DB_OL = (interp1(t, thetaOL_u, 5*tmax/9)) - input_int_u(end) * q_steady_state_OL/q_steady_state;
+DB = (interp1(t, theta_u, 5*tmax/9)) - input_int_u(end);
+DB_servo = (interp1(t, thetas_u, 5*tmax/9))  - input_int_u(end);
 
 % get ratio
 DB_over_qss_OL = DB_OL/q_steady_state_OL;
@@ -58,11 +59,9 @@ DB_over_qss
 DB_over_qss_veri
 
 
-% plot the responses %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% scale the inputs for nicer looking plots
-input_u = u(t) * q_steady_state;
-input_int_u = cumsum(u(t)*dt) * q_steady_state;
+
+% plot the responses %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % figure handle
 step_up_down = figure("Name", "Step up-down",...
@@ -72,7 +71,7 @@ step_up_down = figure("Name", "Step up-down",...
 % q plot
 subplot(211)
 hold on
-    plot(t, -qOL_u, "LineWidth", 1.5, "LineStyle", "-", "DisplayName", "Open Loop")
+    plot(t, -qOL_u*q_steady_state/q_steady_state_OL, "LineWidth", 1.5, "LineStyle", "-", "DisplayName", "Open Loop")
     plot(t, -q_u, "LineWidth", 1.5, "LineStyle", "--", "DisplayName", "Pole Placed")
     plot(t, -qs_u, "LineWidth", 1.5, "LineStyle", "-.", "DisplayName", "Pole Placed + Servo")
     plot(t, -input_u, "LineWidth", 0.5, "LineStyle", "-", "DisplayName", "Reference")
@@ -86,9 +85,9 @@ grid()
 % theta plot
 subplot(212)
 hold on
-    plot(t, -thetaOL_u, "LineWidth", 1.5, "LineStyle", "-", "DisplayName", "Open Loop")
+    plot(t, -thetaOL_u*q_steady_state/q_steady_state_OL, "LineWidth", 1.5, "LineStyle", "-", "DisplayName", "Open Loop")
     plot(t, -theta_u, "LineWidth", 1.5, "LineStyle", "--", "DisplayName", "Pole Placed")
-    plot(t, -theta_u, "LineWidth", 1.5, "LineStyle", "-.", "DisplayName", "Pole Placed + Servo")
+    plot(t, -thetas_u, "LineWidth", 1.5, "LineStyle", "-.", "DisplayName", "Pole Placed + Servo")
     plot(t, -input_int_u, "LineWidth", 0.5, "LineStyle", "-", "DisplayName", "Reference")
 hold off
 legend("Location", "NorthWest", "FontSize", 9)
